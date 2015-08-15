@@ -25,6 +25,7 @@ public:
 	virtual void onEnter();
 	virtual void onExit();
 public:
+	// 触摸响应函数;
 	bool onTouchBeganCallBack(cocos2d::Touch* t, Event* event);
 private:
 	//设置随机石块;

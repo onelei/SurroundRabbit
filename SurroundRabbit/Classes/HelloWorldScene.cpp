@@ -71,7 +71,7 @@ bool HelloWorld::init()
 		{
 			m_pNode_rabbit = (*it);
 			int a = m_pNode_rabbit->getTag();
-			m_pGameAI->start_node = m_pGameAI->map_maze[i][j];
+			m_pGameAI->m_pStart_node = m_pGameAI->map_maze[i][j];
 		}
 		else
 		{
@@ -87,7 +87,8 @@ bool HelloWorld::init()
     return true;
 }
 
-void HelloWorld::onEnter(){
+void HelloWorld::onEnter()
+{
 	Layer::onEnter();
 	// 随机石头(8个,4个);
 
@@ -95,7 +96,8 @@ void HelloWorld::onEnter(){
 
 }
 
-void HelloWorld::onExit(){
+void HelloWorld::onExit()
+{
 	Layer::onExit();
 
 }
@@ -141,24 +143,35 @@ bool HelloWorld::onTouchBeganCallBack(Touch *t, Event* event)
 			int stone_zuobiao = stone->getTag()-11;
 			m_pGameAI->addStone(stone_zuobiao);
 			int end_zuobiao = 01;
-			bool isSuccess = m_pGameAI->aStar(m_pGameAI->start_node, end_zuobiao);
+			//bool isSuccess = m_pGameAI->aStar_oneEnd(m_pGameAI->m_pStart_node, end_zuobiao);
+			bool isSuccess = m_pGameAI->getBestAstar();
 			if (isSuccess)
 			{
-				int zuobiao = m_pGameAI->start_node->s_x * 10 + m_pGameAI->start_node->s_y;
+				// 移动兔子;
+				int zuobiao = m_pGameAI->m_pStart_node->s_x * 10 + m_pGameAI->m_pStart_node->s_y;
 				int nextTag = zuobiao + 11;
 				auto nextNode = m_pNodes->getChildByTag(nextTag);
 				m_pNode_rabbit->setPosition(nextNode->getPosition());
+				
 			}
 			else
 			{
-				MessageBox("结束!!", "Stone");
+				MessageBox("失败!!", "Stone");
 			}
+
+			// 判断是否成功;
+			if (m_pGameAI->fleeSuccess())
+			{
+				MessageBox("成功!!", "Stone");
+			}
+
 			int a = 0;
 			return true;
 		}
 	}
 	return false;
 }
+
 
 
 

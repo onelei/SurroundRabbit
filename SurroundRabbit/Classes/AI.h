@@ -30,9 +30,10 @@ public:
 class AI{
 
 public:
-	pAStarNode *start_node;          // 起始点;  
-	pAStarNode *end_node;            // 结束点 ; 
-	pAStarNode *curr_node;           // 当前点  ;
+	pAStarNode *m_pStart_node;          // 起始点;  
+	pAStarNode *m_pEnd_node;            // 结束点 ; 
+	pAStarNode *m_pNextMove_node;       // 下一步要移动的点 ;
+	int nextMoveStep = -1;
 	pAStarNode* map_maze[9][9];        // 结点数组  ;
 	pAStarNode* open_table[100];     // open表 ; 
 	pAStarNode* close_table[100];        // close表 ; 
@@ -45,7 +46,12 @@ public:
 	void adjust_heap(int nIndex);
 	void insert_to_opentable(int x, int y, pAStarNode* curr_node, pAStarNode* end_node, int w);
 	void get_neighbors(pAStarNode* curr_node, pAStarNode* end_node);
-	bool aStar(pAStarNode* startNode, int endTag);
+	bool aStar_oneEnd(pAStarNode* startNode, int endTag);
+	bool aStar_MultEnd(pAStarNode* startNode, int endTag);
+	bool getBestAstar();
+	// 逃脱成功;
+	bool isFlee = false;
+	bool fleeSuccess();
 	void onClear();
 	void addStone(int stoneTag);
 };
